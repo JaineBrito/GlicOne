@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">GlicOne</string>
+
+    <string-array name="tipos_diabetes">
+        <item>Diabetes Tipo 1</item>
+        <item>Diabetes Tipo 2</item>
+        <item>Diabetes Gestacional</item>
+        <item>Pré-diabetes</item>
+        <item>Outros</item>
+    </string-array>
 </resources>

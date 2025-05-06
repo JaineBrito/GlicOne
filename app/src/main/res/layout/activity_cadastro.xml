@@ -17,7 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.149"/>
+        app:layout_constraintVertical_bias="0.05"
+        app:srcCompat="@drawable/gliconelogo" />
 
     <TextView
         android:id="@+id/tituloCadastro"
@@ -35,7 +36,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="700dp"
         android:layout_margin="16dp"
         android:radius="12dp"
         app:cardElevation="4dp"
@@ -94,6 +95,41 @@
                 android:hint="Digite sua senha"
                 android:inputType="textPassword"
                 android:padding="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Data de Nascimento"
+                android:textColor="#2C3E50"
+                android:textSize="16sp"/>
+
+            <EditText
+                android:id="@+id/editTextDataNascimento"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:drawableEnd="@drawable/baseline_calendar_month_24"
+                android:focusable="false"
+                android:hint="Selecione sua data de nascimento"
+                android:padding="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Tipo de Diabetes"
+                android:textColor="#2C3E50"
+                android:textSize="16sp"/>
+
+            <Spinner
+                android:id="@+id/spinnerDiabetes"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:drawable/btn_dropdown"
+                android:padding="16dp"/>
 
             <Button
                 android:id="@+id/buttonCadastrar"
