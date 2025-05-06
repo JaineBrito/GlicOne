@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@drawable/baseline_dashboard_24"
+        android:title="Dashboard" />
+    <item
+        android:id="@+id/nav_cadastro_medicamento"
+        android:icon="@drawable/medication_24dp_e3e3e3_fill0_wght400_grad0_opsz24"
+        android:title="Medicamentos" />
+    <item
+        android:id="@+id/nav_historico"
+        android:icon="@drawable/baseline_history_24"
+        android:title="Histórico" />
+    <item
+        android:id="@+id/nav_alarmes"
+        android:icon="@drawable/baseline_access_alarm_24"
+        android:title="Alarmes" />
+    <item
+        android:id="@+id/nav_config"
+        android:icon="@drawable/settings_24dp_e3e3e3_fill0_wght400_grad0_opsz24"
+        android:title="Configurações" />
+</menu>
