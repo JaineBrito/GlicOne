@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "922667403648",
+    "project_id": "glicone",
+    "storage_bucket": "glicone.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922667403648:android:f768e43769c3db71ae9965",
+        "android_client_info": {
+          "package_name": "com.example.glicone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAocF-i7gn0ATD3wz3hYnbzY7xzAgbD-YA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
