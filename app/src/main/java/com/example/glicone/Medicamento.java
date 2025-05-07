@@ -2,16 +2,22 @@ package com.example.glicone;
 
 public class Medicamento {
     private String nome;
-    private String descricao;
-    private String dataHora;
+    private String dose;
+    private String dataInicio;
+    private String dataFim;
+    private String hora;
+    private String frequencia;
     private String userId;
 
     public Medicamento() {}
 
-    public Medicamento(String nome, String descricao, String dataHora, String userId) {
+    public Medicamento(String nome, String dose, String hora, String dataInicio, String dataFim, String frequencia, String userId) {
         this.nome = nome;
-        this.descricao = descricao;
-        this.dataHora = dataHora;
+        this.dose = dose;
+        this.dataInicio = dataInicio;
+        this.dataFim = dataFim;
+        this.hora = hora;
+        this.frequencia = frequencia;
         this.userId = userId;
     }
 
@@ -23,22 +29,46 @@ public class Medicamento {
         this.nome = nome;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getDose() {
+        return dose;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDose(String dose) {
+        this.dose = dose;
     }
 
-    public String getDataHora() {
-        return dataHora;
+
+    public String getDataInicio() {
+        return dataInicio;
     }
 
-    public void setDataHora(String dataHora) {
-        this.dataHora = dataHora;
+    public void setDataInicio(String dataInicio) {
+        this.dataInicio = dataInicio;
     }
 
+    public String getDataFim() {
+        return dataFim;
+    }
+
+    public void setDataFim(String dataFim) {
+        this.dataFim = dataFim;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
+    }
+
+    public String getFrequencia() {
+        return frequencia;
+    }
+
+    public void setFrequencia(String frequencia) {
+        this.frequencia = frequencia;
+    }
     public String getUserId() {
         return userId;
     }

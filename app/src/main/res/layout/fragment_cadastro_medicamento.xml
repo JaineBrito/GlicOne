@@ -49,21 +49,53 @@
                     android:hint="Nome do Medicamento"
                     android:layout_marginBottom="12dp"/>
 
-                <EditText
-                    android:id="@+id/et_descricao"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Descrição"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginBottom="12dp" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <EditText
+                        android:id="@+id/et_dose"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:hint="Dosagem"
+                        android:inputType="numberDecimal" />
+
+                    <Spinner
+                        android:id="@+id/spinner_unidade"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
+                <EditText
+                    android:id="@+id/et_dataInicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Data Início"
+                    android:layout_marginBottom="12dp"/>
+                <EditText
+                    android:id="@+id/et_dataFim"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Data Fim"
+                    android:layout_marginBottom="12dp"/>
 
                 <EditText
-                    android:id="@+id/et_data_hora"
+                    android:id="@+id/et_hora"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Data e Hora"
+                    android:hint="Hora"
                     android:focusable="false"
                     android:clickable="true"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="16dp" />
+
+                <Spinner
+                    android:id="@+id/spinner_frequencia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="16dp" />
 

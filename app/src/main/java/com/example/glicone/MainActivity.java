@@ -28,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new DashboardFragment();
             } else if (itemId == R.id.nav_cadastro_medicamento) {
                 selectedFragment = new CadastroMedicamentoFragment();
-            } else if (itemId == R.id.nav_historico) {
-                selectedFragment = new HistoricoFragment();
             } else if (itemId == R.id.nav_alarmes) {
                 selectedFragment = new AlarmesFragment();
             } else if (itemId == R.id.nav_config) {

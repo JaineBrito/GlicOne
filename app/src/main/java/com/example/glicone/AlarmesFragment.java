@@ -85,9 +85,15 @@ public class AlarmesFragment extends Fragment {
             }
         }
 
+        String hora = medicamento.getHora();
+        if (hora == null || hora.isEmpty()) {
+            Log.e("AlarmesFragment", "Hora nula ou vazia para medicamento: " + medicamento.getNome());
+            return;
+        }
+
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-            Date data = sdf.parse(medicamento.getDataHora());
+            Date data = sdf.parse(hora);
 
             if (data != null) {
                 AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
@@ -105,8 +111,10 @@ public class AlarmesFragment extends Fragment {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, data.getTime(), pendingIntent);
             }
         } catch (ParseException e) {
+            Log.e("AlarmesFragment", "Erro ao converter hora para data: " + hora);
             e.printStackTrace();
         }
     }
+
 }
 

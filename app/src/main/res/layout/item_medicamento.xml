@@ -16,18 +16,42 @@
         android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/tv_descricao"
+        android:id="@+id/tv_dose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Descrição do Medicamento"
+        android:text="Dosagem"
         android:textSize="14sp"
         android:layout_marginTop="8dp"/>
 
     <TextView
-        android:id="@+id/tv_data_hora"
+        android:id="@+id/tv_dataInicio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Data e Hora"
+        android:text="Data Fim"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_dataFim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Data Início"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_hora"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hora"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/tv_frequencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Frequencia"
         android:textSize="12sp"
         android:layout_marginTop="8dp"/>
 

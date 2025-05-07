@@ -30,9 +30,12 @@ public class MedicamentoAdapter extends RecyclerView.Adapter<MedicamentoAdapter.
     @Override
     public void onBindViewHolder(MedicamentoViewHolder holder, int position) {
         Medicamento medicamento = medicamentos.get(position);
-        holder.tvNome.setText(medicamento.getNome());
-        holder.tvDescricao.setText(medicamento.getDescricao());
-        holder.tvDataHora.setText(medicamento.getDataHora());
+        holder.tvNome.setText("Medicamento: " + medicamento.getNome());
+        holder.tvDose.setText("Dosagem: " + medicamento.getDose());
+        holder.tvDataInicio.setText("Início: " + medicamento.getDataInicio());
+        holder.tvDataFim.setText("Fim: " + medicamento.getDataFim());
+        holder.tvHora.setText("Hora: " + medicamento.getHora());
+        holder.tvFrequencia.setText("Frequência: " + medicamento.getFrequencia());
     }
 
     @Override
@@ -42,13 +45,16 @@ public class MedicamentoAdapter extends RecyclerView.Adapter<MedicamentoAdapter.
 
     public static class MedicamentoViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvNome, tvDescricao, tvDataHora;
+        TextView tvNome, tvDose, tvDataInicio, tvDataFim, tvHora, tvFrequencia ;
 
         public MedicamentoViewHolder(View itemView) {
             super(itemView);
             tvNome = itemView.findViewById(R.id.tv_nome);
-            tvDescricao = itemView.findViewById(R.id.tv_descricao);
-            tvDataHora = itemView.findViewById(R.id.tv_data_hora);
+            tvDose = itemView.findViewById(R.id.tv_dose);
+            tvDataInicio = itemView.findViewById(R.id.tv_dataInicio);
+            tvDataFim = itemView.findViewById(R.id.tv_dataFim);
+            tvHora = itemView.findViewById(R.id.tv_hora);
+            tvFrequencia = itemView.findViewById(R.id.tv_frequencia);
         }
     }
 }
