@@ -6,7 +6,9 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -168,23 +170,35 @@ public class CadastroMedicamentoFragment extends Fragment {
 
         long triggerTime = date.getTime();
 
-        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getActivity(), AlarmeReceiver.class);
-        intent.putExtra("nome", nome);
-
-        int interval = (int) AlarmManager.INTERVAL_DAY;
-
+        long intervaloMillis;
         switch (frequencia) {
             case "Diariamente":
-                interval = (int) AlarmManager.INTERVAL_DAY;
+                intervaloMillis = AlarmManager.INTERVAL_DAY;
                 break;
             case "Semanalmente":
-                interval = (int) (AlarmManager.INTERVAL_DAY * 7);
+                intervaloMillis = AlarmManager.INTERVAL_DAY * 7;
                 break;
             case "Mensalmente":
-                interval = (int) (AlarmManager.INTERVAL_DAY * 30);
+                intervaloMillis = AlarmManager.INTERVAL_DAY * 30;
                 break;
+            default:
+                intervaloMillis = AlarmManager.INTERVAL_DAY;
         }
+
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (alarmManager != null && !alarmManager.canScheduleExactAlarms()) {
+                Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                startActivity(intent);
+                return;
+            }
+        }
+
+        Intent intent = new Intent(getActivity(), AlarmeReceiver.class);
+        intent.putExtra("nome", nome);
+        intent.putExtra("intervalo", intervaloMillis);
+        intent.putExtra("frequencia", frequencia);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getActivity(),
@@ -194,9 +208,13 @@ public class CadastroMedicamentoFragment extends Fragment {
         );
 
         if (alarmManager != null) {
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, triggerTime, interval, pendingIntent);
+            try {
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+            } catch (SecurityException e) {
+                Toast.makeText(getActivity(), "Permissão necessária.", Toast.LENGTH_SHORT).show();
+            }
         }
 
-        Toast.makeText(getActivity(), "Alarme configurado para " + frequencia, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Alarme agendado para " + hora + " (" + frequencia + ")", Toast.LENGTH_SHORT).show();
     }
 }

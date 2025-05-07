@@ -52,7 +52,7 @@ public class AlarmesFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         usuarioId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d("UsuarioId", "ID do usuário: " + usuarioId);
+
         db.collection("medicamentos")
                 .whereEqualTo("userId", usuarioId)
                 .get()
@@ -78,7 +78,8 @@ public class AlarmesFragment extends Fragment {
 
     private void agendarAlarme(Medicamento medicamento) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (!requireContext().getSystemService(AlarmManager.class).canScheduleExactAlarms()) {
+            AlarmManager alarmManager = requireContext().getSystemService(AlarmManager.class);
+            if (!alarmManager.canScheduleExactAlarms()) {
                 Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
                 startActivity(intent);
                 return;
@@ -92,12 +93,12 @@ public class AlarmesFragment extends Fragment {
         }
 
         try {
+            String dataAtual = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
-            Date data = sdf.parse(hora);
+            Date data = sdf.parse(dataAtual + " " + hora);
 
             if (data != null) {
                 AlarmManager alarmManager = (AlarmManager) requireContext().getSystemService(Context.ALARM_SERVICE);
-
                 Intent intent = new Intent(requireContext(), AlarmeReceiver.class);
                 intent.putExtra("nome", medicamento.getNome());
 
@@ -109,12 +110,13 @@ public class AlarmesFragment extends Fragment {
                 );
 
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, data.getTime(), pendingIntent);
+
+                Log.d("AlarmesFragment", "Alarme agendado para: " + data.toString());
             }
         } catch (ParseException e) {
             Log.e("AlarmesFragment", "Erro ao converter hora para data: " + hora);
             e.printStackTrace();
         }
     }
-
 }
 
