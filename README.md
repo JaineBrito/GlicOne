@@ -19,6 +19,8 @@ Este projeto foi desenvolvido por:
 - **Android**: Plataforma para desenvolvimento do aplicativo.
 - **Firebase**: Para autenticação de usuários e armazenamento de dados no Firestore.
 - **AlarmManager**: Para gerenciar alarmes e notificações sobre horários de medicação.
+- **NotificationManager**: Para gerenciar a criação e exibição de notificações.
+- **RecyclerView**: Para exibir a lista de medicamentos de forma eficiente e rolável.
 
 ## Funcionalidades
 - **Cadastro de medicamentos**: Permite o registro de medicamentos e dosagem.
