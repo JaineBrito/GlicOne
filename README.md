@@ -19,7 +19,6 @@ Este projeto foi desenvolvido por:
 - **Android**: Plataforma para desenvolvimento do aplicativo.
 - **Firebase**: Para autenticação de usuários e armazenamento de dados no Firestore.
 - **AlarmManager**: Para gerenciar alarmes e notificações sobre horários de medicação.
-- **Firebase Cloud Messaging**: Para envio de notificações em tempo real aos usuários.
 
 ## Funcionalidades
 - **Cadastro de medicamentos**: Permite o registro de medicamentos e dosagem.
