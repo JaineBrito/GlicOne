@@ -1,59 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:layout_marginBottom="8dp"
-    android:elevation="2dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    app:cardElevation="4dp"
+    app:cardCornerRadius="12dp">
 
-    <TextView
-        android:id="@+id/tv_nome"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nome do Medicamento"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:layout_marginBottom="8dp"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tv_dose"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dosagem"
-        android:textSize="14sp"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/tv_nome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nome do Medicamento"
+            android:textColor="#004D5C"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tv_dataInicio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Data Fim"
-        android:textSize="12sp"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/tv_dose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Dosagem"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/tv_dataFim"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Data Início"
-        android:textSize="12sp"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/tv_dataInicio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Data Início"
+            android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/tv_hora"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hora"
-        android:textSize="12sp"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/tv_dataFim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Data Fim"
+            android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/tv_frequencia"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Frequencia"
-        android:textSize="12sp"
-        android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/tv_hora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Hora"
+            android:textSize="12sp" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_frequencia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Frequência"
+            android:textSize="12sp" />
 
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

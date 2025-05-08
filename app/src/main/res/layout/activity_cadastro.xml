@@ -8,26 +8,26 @@
     android:background="#F8FCFF"
     tools:context=".CadastroActivity">
 
-
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="209dp"
-        android:layout_height="96dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="200dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.05"
-        app:srcCompat="@drawable/gliconelogo" />
+        app:srcCompat="@drawable/gliconelogotipo" />
 
     <TextView
         android:id="@+id/tituloCadastro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:text="Criar Conta"
         android:textColor="#004D5C"
-        android:textSize="26sp"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -36,11 +36,14 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="700dp"
+        android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:radius="12dp"
-        app:cardElevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/tituloCadastro">
+        android:radius="16dp"
+        app:cardElevation="6dp"
+        app:layout_constraintTop_toBottomOf="@id/tituloCadastro"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,93 +52,107 @@
             android:orientation="vertical"
             android:padding="20dp">
 
+            <!-- Nome -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Nome"
                 android:textColor="#2C3E50"
                 android:textSize="16sp" />
+
             <EditText
                 android:id="@+id/editTextNome"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_background"
                 android:hint="Digite seu nome"
                 android:inputType="textPersonName"
-                android:padding="16dp" />
+                android:padding="12dp" />
 
+            <!-- Email -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:text="Email"
                 android:textColor="#2C3E50"
                 android:textSize="16sp" />
+
             <EditText
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_background"
                 android:hint="Digite seu email"
                 android:inputType="textEmailAddress"
-                android:padding="16dp" />
+                android:padding="12dp" />
 
+            <!-- Senha -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:text="Senha"
                 android:textColor="#2C3E50"
                 android:textSize="16sp" />
+
             <EditText
                 android:id="@+id/editTextSenha"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_background"
                 android:hint="Digite sua senha"
                 android:inputType="textPassword"
-                android:padding="16dp" />
+                android:padding="12dp" />
 
+            <!-- Data de Nascimento -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:text="Data de Nascimento"
                 android:textColor="#2C3E50"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/editTextDataNascimento"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginTop="10dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_background"
                 android:clickable="true"
                 android:drawableEnd="@drawable/baseline_calendar_month_24"
                 android:focusable="false"
                 android:hint="Selecione sua data de nascimento"
-                android:padding="16dp" />
+                android:padding="12dp" />
 
+            <!-- Tipo de Diabetes -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="16dp"
                 android:text="Tipo de Diabetes"
                 android:textColor="#2C3E50"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <Spinner
                 android:id="@+id/spinnerDiabetes"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:layout_marginTop="10dp"
-                android:background="@android:drawable/btn_dropdown"
-                android:padding="16dp"/>
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/edittext_background"
+                android:padding="8dp" />
 
-            <Button
+            <!-- Botão -->
+            <android.widget.Button
                 android:id="@+id/buttonCadastrar"
                 android:layout_width="match_parent"
-                android:layout_height="51dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="30dp"
+                android:background="@drawable/button_background"
                 android:backgroundTint="#004D5C"
                 android:text="Cadastrar"
                 android:textColor="#FFFFFF" />

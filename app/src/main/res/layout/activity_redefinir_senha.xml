@@ -12,11 +12,13 @@
         android:id="@+id/logo"
         android:layout_width="209dp"
         android:layout_height="96dp"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.149"/>
+        app:layout_constraintVertical_bias="0.15"
+        app:srcCompat="@drawable/gliconelogotipo" />
 
     <TextView
         android:id="@+id/tituloRedefinirSenha"
@@ -27,10 +29,21 @@
         android:textColor="#004D5C"
         android:textSize="26sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintTop_toBottomOf="@id/logo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/subtitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Digite seu e-mail para redefinir a senha"
+        android:textColor="#2C3E50"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tituloRedefinirSenha"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -38,7 +51,7 @@
         android:layout_margin="16dp"
         android:radius="12dp"
         app:cardElevation="4dp"
-        app:layout_constraintTop_toBottomOf="@id/tituloRedefinirSenha">
+        app:layout_constraintTop_toBottomOf="@id/subtitulo">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,21 +59,24 @@
             android:background="@android:color/white"
             android:orientation="vertical"
             android:padding="20dp">
+
             <EditText
                 android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
                 android:hint="Digite seu e-mail"
                 android:inputType="textEmailAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:padding="16dp" />
 
-            <Button
+            <android.widget.Button
                 android:id="@+id/buttonRedefinir"
-                android:text="Redefinir Senha"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="#004D5C"
-                android:layout_marginTop="16dp"
-                android:textColor="#FFFFFF"/>
+                android:layout_height="51dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_background"
+                android:text="Redefinir Senha"
+                android:textColor="#FFFFFF" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
