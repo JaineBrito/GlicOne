@@ -11,12 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -50,7 +50,6 @@ public class AlarmesFragment extends Fragment {
         recyclerViewAlarms.setAdapter(medicamentoAdapter);
 
         db = FirebaseFirestore.getInstance();
-
         usuarioId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         db.collection("medicamentos")
@@ -77,6 +76,14 @@ public class AlarmesFragment extends Fragment {
     }
 
     private void agendarAlarme(Medicamento medicamento) {
+        SharedPreferences prefs = requireContext().getSharedPreferences("alarm_prefs", Context.MODE_PRIVATE);
+        String alarmKey = medicamento.getNome();
+
+        if (prefs.getBoolean(alarmKey, false)) {
+            Log.d("AlarmesFragment", "Alarme já agendado para: " + medicamento.getNome());
+            return;
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             AlarmManager alarmManager = requireContext().getSystemService(AlarmManager.class);
             if (!alarmManager.canScheduleExactAlarms()) {
@@ -110,6 +117,7 @@ public class AlarmesFragment extends Fragment {
                 );
 
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, data.getTime(), pendingIntent);
+                prefs.edit().putBoolean(alarmKey, true).apply();
 
                 Log.d("AlarmesFragment", "Alarme agendado para: " + data.toString());
             }
@@ -119,4 +127,3 @@ public class AlarmesFragment extends Fragment {
         }
     }
 }
-

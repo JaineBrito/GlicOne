@@ -1,64 +1,121 @@
 package com.example.glicone;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.Timestamp;
+import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DashboardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DashboardFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private LineChart lineChartHeartRate;
+    private LineChart lineChartGlucosePrediction;
+    private FirebaseFirestore firestore;
+    private ListenerRegistration heartRateListener;
+    private ListenerRegistration glucosePredictionListener;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public DashboardFragment() {}
 
-    public DashboardFragment() {
-        // Required empty public constructor
-    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DashboardFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DashboardFragment newInstance(String param1, String param2) {
-        DashboardFragment fragment = new DashboardFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        lineChartHeartRate = view.findViewById(R.id.lineChartHeartRate);
+        lineChartGlucosePrediction = view.findViewById(R.id.lineChartGlucosePrediction);
+
+        firestore = FirebaseFirestore.getInstance();
+
+        setupHeartRateChart();
+        setupGlucosePredictionChart();
+
+        return view;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (heartRateListener != null) {
+            heartRateListener.remove();
+        }
+        if (glucosePredictionListener != null) {
+            glucosePredictionListener.remove();
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dashboard, container, false);
+    private void setupHeartRateChart() {
+        CollectionReference collection = firestore.collection("leituras");
+
+        heartRateListener = collection.orderBy("timestamp", Query.Direction.DESCENDING).limit(10)
+                .addSnapshotListener((QuerySnapshot snapshots, FirebaseFirestoreException e) -> {
+                    if (e != null || snapshots == null) return;
+
+                    ArrayList<Entry> entries = new ArrayList<>();
+                    int index = 0;
+
+                    for (DocumentSnapshot document : snapshots.getDocuments()) {
+                        Long bpm = document.getLong("bpm");
+                        Timestamp timestamp = document.getTimestamp("timestamp");
+
+                        if (bpm != null && timestamp != null) {
+                            entries.add(new Entry(index, bpm.floatValue()));
+                            index++;
+                        }
+                    }
+
+                    LineDataSet dataSet = new LineDataSet(entries, "Intensidade dos Sinais Elétricos (BPM)");
+                    dataSet.setColor(getResources().getColor(R.color.teal_700));
+                    dataSet.setCircleColor(getResources().getColor(R.color.teal_200));
+                    dataSet.setLineWidth(2f);
+                    dataSet.setCircleRadius(4f);
+
+                    LineData lineData = new LineData(dataSet);
+                    lineChartHeartRate.setData(lineData);
+                    lineChartHeartRate.invalidate();
+                });
+    }
+
+    private void setupGlucosePredictionChart() {
+        CollectionReference collection = firestore.collection("leituras");
+
+        glucosePredictionListener = collection.orderBy("timestamp", Query.Direction.DESCENDING).limit(10)
+                .addSnapshotListener((QuerySnapshot snapshots, FirebaseFirestoreException e) -> {
+                    if (e != null || snapshots == null) return;
+
+                    ArrayList<Entry> entries = new ArrayList<>();
+                    int index = 0;
+
+                    for (DocumentSnapshot document : snapshots.getDocuments()) {
+                        Double glicemia = document.getDouble("glicemia");
+                        Timestamp timestamp = document.getTimestamp("timestamp");
+
+                        if (glicemia != null && timestamp != null) {
+                            entries.add(new Entry(index, glicemia.floatValue()));
+                            index++;
+                        }
+                    }
+
+                    LineDataSet dataSet = new LineDataSet(entries, "Previsão de Glicemia");
+                    dataSet.setColor(getResources().getColor(R.color.purple_700));
+                    dataSet.setCircleColor(getResources().getColor(R.color.purple_200));
+                    dataSet.setLineWidth(2f);
+                    dataSet.setCircleRadius(4f);
+
+                    LineData lineData = new LineData(dataSet);
+                    lineChartGlucosePrediction.setData(lineData);
+                    lineChartGlucosePrediction.invalidate();
+                });
     }
 }
