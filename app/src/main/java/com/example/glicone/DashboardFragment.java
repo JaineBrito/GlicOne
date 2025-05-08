@@ -12,11 +12,8 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.ListenerRegistration;
-import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.Query;
 import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment {
@@ -24,8 +21,7 @@ public class DashboardFragment extends Fragment {
     private LineChart lineChartHeartRate;
     private LineChart lineChartGlucosePrediction;
     private FirebaseFirestore firestore;
-    private ListenerRegistration heartRateListener;
-    private ListenerRegistration glucosePredictionListener;
+    private ListenerRegistration dataListener;
 
     public DashboardFragment() {}
 
@@ -36,86 +32,74 @@ public class DashboardFragment extends Fragment {
         lineChartHeartRate = view.findViewById(R.id.lineChartHeartRate);
         lineChartGlucosePrediction = view.findViewById(R.id.lineChartGlucosePrediction);
 
+        lineChartHeartRate.getDescription().setEnabled(false);
+        lineChartGlucosePrediction.getDescription().setEnabled(false);
+
         firestore = FirebaseFirestore.getInstance();
-
-        setupHeartRateChart();
-        setupGlucosePredictionChart();
-
+        setupCharts();
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (heartRateListener != null) {
-            heartRateListener.remove();
-        }
-        if (glucosePredictionListener != null) {
-            glucosePredictionListener.remove();
+        if (dataListener != null) {
+            dataListener.remove();
         }
     }
 
-    private void setupHeartRateChart() {
+    private void setupCharts() {
         CollectionReference collection = firestore.collection("leituras");
+        Query query = collection.orderBy("timestamp", Query.Direction.DESCENDING).limit(20);
 
-        heartRateListener = collection.orderBy("timestamp", Query.Direction.DESCENDING).limit(10)
-                .addSnapshotListener((QuerySnapshot snapshots, FirebaseFirestoreException e) -> {
-                    if (e != null || snapshots == null) return;
+        dataListener = query.addSnapshotListener((snapshots, e) -> {
+            if (e != null || snapshots == null) return;
 
-                    ArrayList<Entry> entries = new ArrayList<>();
-                    int index = 0;
+            ArrayList<Entry> heartRateEntries = new ArrayList<>();
+            ArrayList<Entry> glucoseEntries = new ArrayList<>();
+            int index = 0;
 
-                    for (DocumentSnapshot document : snapshots.getDocuments()) {
-                        Long bpm = document.getLong("bpm");
-                        Timestamp timestamp = document.getTimestamp("timestamp");
+            int countValidRecords = 0;
 
-                        if (bpm != null && timestamp != null) {
-                            entries.add(new Entry(index, bpm.floatValue()));
-                            index++;
-                        }
-                    }
+            for (DocumentSnapshot document : snapshots.getDocuments()) {
+                if (countValidRecords >= 5) break;
 
-                    LineDataSet dataSet = new LineDataSet(entries, "Intensidade dos Sinais Elétricos (BPM)");
-                    dataSet.setColor(getResources().getColor(R.color.teal_700));
-                    dataSet.setCircleColor(getResources().getColor(R.color.teal_200));
-                    dataSet.setLineWidth(2f);
-                    dataSet.setCircleRadius(4f);
+                Long bpm = document.getLong("bpm");
+                Double glicemia = document.getDouble("glicemia");
 
-                    LineData lineData = new LineData(dataSet);
-                    lineChartHeartRate.setData(lineData);
-                    lineChartHeartRate.invalidate();
-                });
-    }
+                if (bpm != null && glicemia != null) {
+                    heartRateEntries.add(new Entry(index, bpm.floatValue()));
+                    glucoseEntries.add(new Entry(index, glicemia.floatValue()));
+                    index++;
+                    countValidRecords++;
+                }
+            }
 
-    private void setupGlucosePredictionChart() {
-        CollectionReference collection = firestore.collection("leituras");
+            while (heartRateEntries.size() < 5) {
+                heartRateEntries.add(new Entry(index, 0f));
+                glucoseEntries.add(new Entry(index, 0f));
+                index++;
+            }
 
-        glucosePredictionListener = collection.orderBy("timestamp", Query.Direction.DESCENDING).limit(10)
-                .addSnapshotListener((QuerySnapshot snapshots, FirebaseFirestoreException e) -> {
-                    if (e != null || snapshots == null) return;
+            LineDataSet heartRateDataSet = new LineDataSet(heartRateEntries, "Intensidade dos Sinais Elétricos (BPM)");
+            heartRateDataSet.setColor(getResources().getColor(R.color.teal_700));
+            heartRateDataSet.setCircleColor(getResources().getColor(R.color.teal_200));
+            heartRateDataSet.setLineWidth(2f);
+            heartRateDataSet.setCircleRadius(4f);
 
-                    ArrayList<Entry> entries = new ArrayList<>();
-                    int index = 0;
+            LineData heartRateLineData = new LineData(heartRateDataSet);
+            lineChartHeartRate.setData(heartRateLineData);
+            lineChartHeartRate.invalidate();
 
-                    for (DocumentSnapshot document : snapshots.getDocuments()) {
-                        Double glicemia = document.getDouble("glicemia");
-                        Timestamp timestamp = document.getTimestamp("timestamp");
+            LineDataSet glucoseDataSet = new LineDataSet(glucoseEntries, "Previsão de Glicemia");
+            glucoseDataSet.setColor(getResources().getColor(R.color.purple_700));
+            glucoseDataSet.setCircleColor(getResources().getColor(R.color.purple_200));
+            glucoseDataSet.setLineWidth(2f);
+            glucoseDataSet.setCircleRadius(4f);
 
-                        if (glicemia != null && timestamp != null) {
-                            entries.add(new Entry(index, glicemia.floatValue()));
-                            index++;
-                        }
-                    }
-
-                    LineDataSet dataSet = new LineDataSet(entries, "Previsão de Glicemia");
-                    dataSet.setColor(getResources().getColor(R.color.purple_700));
-                    dataSet.setCircleColor(getResources().getColor(R.color.purple_200));
-                    dataSet.setLineWidth(2f);
-                    dataSet.setCircleRadius(4f);
-
-                    LineData lineData = new LineData(dataSet);
-                    lineChartGlucosePrediction.setData(lineData);
-                    lineChartGlucosePrediction.invalidate();
-                });
+            LineData glucoseLineData = new LineData(glucoseDataSet);
+            lineChartGlucosePrediction.setData(glucoseLineData);
+            lineChartGlucosePrediction.invalidate();
+        });
     }
 }
