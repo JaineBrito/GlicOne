@@ -26,7 +26,7 @@ Este projeto foi desenvolvido por:
 - **Sensor de frequência cardíaca e pulso**: Usado para medir a frequência cardíaca e a oxigenação do sangue.
 
 ## Funcionalidades
--- **Dashboard**: Mostra gráficos de intensidade dos sinais elétricos e previsão de glicemia.
+- **Dashboard**: Mostra gráficos de intensidade dos sinais elétricos e previsão de glicemia.
 - **Cadastro de medicamentos**: Permite o registro de medicamentos e dosagem.
 - **Alarmes para medicação**: Configuração de lembretes para horários de medicação.
 - **Histórico de medicação**: Visualização de registros de medicamentos tomados.
