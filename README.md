@@ -21,8 +21,12 @@ Este projeto foi desenvolvido por:
 - **AlarmManager**: Para gerenciar alarmes e notificações sobre horários de medicação.
 - **NotificationManager**: Para gerenciar a criação e exibição de notificações.
 - **RecyclerView**: Para exibir a lista de medicamentos de forma eficiente e rolável.
+- **IDE Arduino**: Software usado para programar microcontroladores como o ESP32 e muitos outros.
+- **Microcontrolador ESP32**: Microcontrolador potente, equipado com Wi-Fi e Bluetooth integrados.
+- **Sensor de frequência cardíaca e pulso**: Usado para medir a frequência cardíaca e a oxigenação do sangue.
 
 ## Funcionalidades
+-- **Dashboard**: Mostra gráficos de intensidade dos sinais elétricos e previsão de glicemia.
 - **Cadastro de medicamentos**: Permite o registro de medicamentos e dosagem.
 - **Alarmes para medicação**: Configuração de lembretes para horários de medicação.
 - **Histórico de medicação**: Visualização de registros de medicamentos tomados.
