@@ -24,6 +24,7 @@ Este projeto foi desenvolvido por:
 - **IDE Arduino**: Software usado para programar microcontroladores como o ESP32 e muitos outros.
 - **Microcontrolador ESP32**: Microcontrolador potente, equipado com Wi-Fi e Bluetooth integrados.
 - **Sensor de frequência cardíaca e pulso**: Usado para medir a frequência cardíaca e a oxigenação do sangue.
+- **MPAndroidChart**: Biblioteca utilizada para criar gráficos interativos no aplicativo.
 
 ## Funcionalidades
 - **Dashboard**: Mostra gráficos de intensidade dos sinais elétricos e previsão de glicemia.
