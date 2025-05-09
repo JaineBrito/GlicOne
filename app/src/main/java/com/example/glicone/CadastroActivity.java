@@ -93,7 +93,6 @@ public class CadastroActivity extends AppCompatActivity {
                                             .addOnCompleteListener(updateTask -> {
                                                 if (updateTask.isSuccessful()) {
                                                     saveUserData(user.getUid(), nome, email, dataNascimento, tipoDiabetes);
-                                                    Toast.makeText(this, "Usuário cadastrado com sucesso!", Toast.LENGTH_SHORT).show();
                                                     finish();
                                                 }
                                             });

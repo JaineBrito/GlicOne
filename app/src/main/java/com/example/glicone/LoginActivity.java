@@ -85,7 +85,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     } else {
                         txtUsuarioInvalido.setVisibility(View.VISIBLE);
-                        Toast.makeText(this, "Falha no login: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
