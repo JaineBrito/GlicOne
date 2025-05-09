@@ -1,6 +1,9 @@
 package com.example.glicone;
 
-public class Medicamento {
+import java.io.Serializable;
+
+public class Medicamento implements Serializable {
+    private String id;
     private String nome;
     private String dose;
     private String dataInicio;
@@ -21,6 +24,13 @@ public class Medicamento {
         this.userId = userId;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     public String getNome() {
         return nome;
     }
@@ -36,7 +46,6 @@ public class Medicamento {
     public void setDose(String dose) {
         this.dose = dose;
     }
-
 
     public String getDataInicio() {
         return dataInicio;
@@ -69,6 +78,7 @@ public class Medicamento {
     public void setFrequencia(String frequencia) {
         this.frequencia = frequencia;
     }
+
     public String getUserId() {
         return userId;
     }

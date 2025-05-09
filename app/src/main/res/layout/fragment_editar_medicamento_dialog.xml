@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    app:cardElevation="6dp"
+    app:cardCornerRadius="12dp">
+
+    <LinearLayout
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar Medicamento"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#004D5C"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/et_nome"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Nome do Medicamento"
+            android:padding="10dp"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/et_dose"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:hint="Dosagem"
+                android:inputType="numberDecimal"
+                android:padding="10dp"
+                android:background="@drawable/edittext_background" />
+
+            <Spinner
+                android:id="@+id/spinner_unidade"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/edittext_background"
+                android:padding="8dp" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_dataInicio"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Data Início"
+            android:focusable="false"
+            android:clickable="true"
+            android:padding="10dp"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/et_dataFim"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Data Fim"
+            android:focusable="false"
+            android:clickable="true"
+            android:padding="10dp"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/et_hora"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:hint="Hora"
+            android:focusable="false"
+            android:clickable="true"
+            android:padding="10dp"
+            android:background="@drawable/edittext_background"
+            android:layout_marginBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/spinner_frequencia"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/edittext_background"
+            android:padding="8dp"
+            android:layout_marginBottom="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/btn_salvar"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:minWidth="80dp"
+                android:backgroundTint="#004D5C"
+                android:text="Salvar"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_marginEnd="8dp" />
+
+            <Button
+                android:id="@+id/btn_cancelar"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:minWidth="80dp"
+                android:backgroundTint="#D32F2F"
+                android:text="Cancelar"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+
+
+

@@ -114,17 +114,29 @@ public class CadastroMedicamentoFragment extends Fragment {
             db.collection("medicamentos")
                     .add(medicamento)
                     .addOnSuccessListener(documentReference -> {
-                        Toast.makeText(getActivity(), "Medicamento salvo com sucesso", Toast.LENGTH_SHORT).show();
-                        etNome.setText("");
-                        etDose.setText("");
-                        etDataInicio.setText("");
-                        etDataFim.setText("");
-                        etHora.setText("");
-                        setAlarm(frequencia, nome, dataInicio, hora);
+                        String medicamentoId = documentReference.getId();
+                        medicamento.setId(medicamentoId);
+
+                        db.collection("medicamentos")
+                                .document(medicamentoId)
+                                .set(medicamento)
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(getActivity(), "Medicamento salvo com sucesso", Toast.LENGTH_SHORT).show();
+                                    etNome.setText("");
+                                    etDose.setText("");
+                                    etDataInicio.setText("");
+                                    etDataFim.setText("");
+                                    etHora.setText("");
+                                    setAlarm(frequencia, nome, dataInicio, hora);
+                                })
+                                .addOnFailureListener(e -> {
+                                    Toast.makeText(getActivity(), "Erro ao salvar medicamento", Toast.LENGTH_SHORT).show();
+                                });
                     })
                     .addOnFailureListener(e -> {
                         Toast.makeText(getActivity(), "Erro ao salvar medicamento", Toast.LENGTH_SHORT).show();
                     });
+
         });
 
         return rootView;

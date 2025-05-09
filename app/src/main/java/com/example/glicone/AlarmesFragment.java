@@ -6,22 +6,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,41 +34,90 @@ public class AlarmesFragment extends Fragment {
     private String usuarioId;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_alarmes, container, false);
 
         recyclerViewAlarms = rootView.findViewById(R.id.recyclerViewAlarms);
         recyclerViewAlarms.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         listaMedicamentos = new ArrayList<>();
-        medicamentoAdapter = new MedicamentoAdapter(listaMedicamentos, getActivity());
+        medicamentoAdapter = new MedicamentoAdapter(listaMedicamentos, getActivity(), new MedicamentoAdapter.OnMedicamentoActionListener() {
+
+            @Override
+            public void onEditar(Medicamento medicamento) {
+                Log.d("AlarmesFragment", "Editar: " + medicamento.getNome());
+
+                EditarMedicamentoDialogFragment dialog = EditarMedicamentoDialogFragment.newInstance(medicamento);
+                dialog.seteditarMedicamentoListener(new EditarMedicamentoDialogFragment.editarMedicamentoListener() {
+                    @Override
+                    public void editarMedicamento(Medicamento medicamentoEditado) {
+                        atualizarMedicamentoNoFirebase(medicamentoEditado);
+
+                        for (int i = 0; i < listaMedicamentos.size(); i++) {
+                            Medicamento m = listaMedicamentos.get(i);
+                            if (m.getNome().equals(medicamentoEditado.getNome())) {
+                                listaMedicamentos.set(i, medicamentoEditado);
+                                medicamentoAdapter.notifyItemChanged(i);
+                                break;
+                            }
+                        }
+                    }
+                });
+
+                dialog.show(requireActivity().getSupportFragmentManager(), "editarMedicamentoDialog");
+            }
+
+            @Override
+            public void onExcluir(Medicamento medicamento) {
+                db.collection("medicamentos")
+                        .whereEqualTo("userId", usuarioId)
+                        .whereEqualTo("nome", medicamento.getNome())
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            for (DocumentSnapshot doc : queryDocumentSnapshots.getDocuments()) {
+                                doc.getReference().delete();
+                            }
+                            listaMedicamentos.remove(medicamento);
+                            medicamentoAdapter.notifyDataSetChanged();
+                            Log.d("AlarmesFragment", "Medicamento excluído: " + medicamento.getNome());
+                        })
+                        .addOnFailureListener(e -> Log.e("AlarmesFragment", "Erro ao excluir: " + e.getMessage()));
+            }
+        });
         recyclerViewAlarms.setAdapter(medicamentoAdapter);
 
         db = FirebaseFirestore.getInstance();
         usuarioId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
+        carregarMedicamentos();
+
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        carregarMedicamentos();
+    }
+
+    private void carregarMedicamentos() {
         db.collection("medicamentos")
                 .whereEqualTo("userId", usuarioId)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
+                    listaMedicamentos.clear();
                     if (!queryDocumentSnapshots.isEmpty()) {
-                        listaMedicamentos.clear();
-                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots.getDocuments()) {
                             Medicamento medicamento = document.toObject(Medicamento.class);
                             listaMedicamentos.add(medicamento);
                             agendarAlarme(medicamento);
                         }
-                        medicamentoAdapter.notifyDataSetChanged();
-                    } else {
-                        Log.d("AlarmesFragment", "Nenhum medicamento encontrado.");
                     }
+                    medicamentoAdapter.notifyDataSetChanged();
                 })
                 .addOnFailureListener(e -> {
                     Log.e("AlarmesFragment", "Erro ao recuperar dados: " + e.getMessage());
                 });
-
-        return rootView;
     }
 
     private void agendarAlarme(Medicamento medicamento) {
@@ -125,5 +170,33 @@ public class AlarmesFragment extends Fragment {
             Log.e("AlarmesFragment", "Erro ao converter hora para data: " + hora);
             e.printStackTrace();
         }
+    }
+
+    private void atualizarMedicamentoNoFirebase(Medicamento medicamento) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String usuarioId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        db.collection("medicamentos")
+                .whereEqualTo("userId", usuarioId)
+                .whereEqualTo("nome", medicamento.getNome())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        DocumentSnapshot doc = queryDocumentSnapshots.getDocuments().get(0);
+                        doc.getReference().update(
+                                "nome", medicamento.getNome(),
+                                "dose", medicamento.getDose(),
+                                "hora", medicamento.getHora(),
+                                "dataInicio", medicamento.getDataInicio(),
+                                "dataFim", medicamento.getDataFim(),
+                                "frequencia", medicamento.getFrequencia()
+                        ).addOnSuccessListener(aVoid -> {
+                            Log.d("AlarmesFragment", "Medicamento atualizado com sucesso!");
+                        }).addOnFailureListener(e -> {
+                            Log.e("AlarmesFragment", "Erro ao atualizar medicamento: " + e.getMessage());
+                        });
+                    }
+                })
+                .addOnFailureListener(e -> Log.e("AlarmesFragment", "Erro ao recuperar medicamento: " + e.getMessage()));
     }
 }
