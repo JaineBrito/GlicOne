@@ -1,5 +1,7 @@
 # GlicOne
 
+![Logo do GlicOne](media/Logo_GlicOne.png)
+
 ## Motivo do Projeto
 O **GlicOne** é um aplicativo desenvolvido com o objetivo de auxiliar no gerenciamento do diabetes, facilitando o acompanhamento de medicamentos.
 
